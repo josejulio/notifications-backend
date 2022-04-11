@@ -45,22 +45,22 @@ jobs:
         run: bash .github/scripts/push-admin-console.sh
       - name: Build with Maven
         run: ./mvnw clean verify --no-transfer-progress
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload notifications openapi.json
         with:
           name: openapi.notifications.json
           path: backend/target/openapi.notifications.json
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload integrations openapi.json
         with:
           name: openapi.integrations.json
           path: backend/target/openapi.integrations.json
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload private openapi.json
         with:
           name: openapi.private.json
           path: backend/target/openapi.private.json
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload internal openapi.json
         with:
           name: openapi.internal.json
