@@ -19,7 +19,9 @@ import com.redhat.cloud.notifications.routers.models.PageLinksBuilder;
 import com.redhat.cloud.notifications.routers.models.behaviorgroup.CreateBehaviorGroupRequest;
 import com.redhat.cloud.notifications.routers.models.behaviorgroup.CreateBehaviorGroupResponse;
 import com.redhat.cloud.notifications.routers.models.behaviorgroup.UpdateBehaviorGroupRequest;
+import com.redhat.cloud.versioned.VersionedPath;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -63,7 +65,7 @@ import static com.redhat.cloud.notifications.routers.SecurityContextUtil.getOrgI
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
-@Path(Constants.API_NOTIFICATIONS_V_1_0 + "/notifications")
+@VersionedPath(path = Constants.API_NOTIFICATIONS, sinceVersion = "1.0")
 public class NotificationResource {
 
     @Inject
@@ -345,7 +347,7 @@ public class NotificationResource {
     @Transactional
     public Response updateBehaviorGroupActions(@Context SecurityContext sec,
                        @Parameter(description = "The UUID of the behavior group to update") @PathParam("behaviorGroupId") UUID behaviorGroupId,
-                       @Parameter(description = "List of endpoint ids of the actions") List<UUID> endpointIds) {
+                       @Parameter(description = "List of endpoint ids of the actions", in = ParameterIn.DEFAULT) List<UUID> endpointIds) {
         if (endpointIds == null) {
             throw new BadRequestException("The request body must contain a list (possibly empty) of endpoints identifiers");
         }

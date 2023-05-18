@@ -42,7 +42,7 @@ import static com.redhat.cloud.notifications.routers.EventResource.PATH;
 import static com.redhat.cloud.notifications.routers.SecurityContextUtil.getOrgId;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path(PATH)
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =PATH)
 public class EventResource {
 
     public static final String PATH = API_NOTIFICATIONS_V_1_0 + "/notifications/events";
@@ -50,7 +50,7 @@ public class EventResource {
     @Inject
     EventRepository eventRepository;
 
-    @GET
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_READ_NOTIFICATIONS_EVENTS)
     @Operation(summary = "Retrieve the event log entries.", description =

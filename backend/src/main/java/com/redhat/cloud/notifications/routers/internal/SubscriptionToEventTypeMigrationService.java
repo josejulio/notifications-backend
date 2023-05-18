@@ -12,14 +12,14 @@ import static com.redhat.cloud.notifications.Constants.API_INTERNAL;
 import static com.redhat.cloud.notifications.auth.ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN;
 
 @RolesAllowed(RBAC_INTERNAL_ADMIN)
-@Path(API_INTERNAL)
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL)
 public class SubscriptionToEventTypeMigrationService {
 
     @Inject
     EntityManager entityManager;
 
-    @PUT
-    @Path("/subscription-to-event-type/migrate")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/subscription-to-event-type/migrate")
     public void migrate() {
         Log.info("Start Events migration");
         migrateData();

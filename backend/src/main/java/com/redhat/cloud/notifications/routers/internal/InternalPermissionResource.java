@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import static com.redhat.cloud.notifications.Constants.API_INTERNAL;
 
 @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN)
-@Path(API_INTERNAL + "/access")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL + "/access")
 public class InternalPermissionResource {
 
     @Inject
@@ -42,8 +42,8 @@ public class InternalPermissionResource {
     @Inject
     SecurityIdentity securityIdentity;
 
-    @GET
-    @Path("/me")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/me")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER) // Overrides admin permission
     public InternalUserPermissions getPermissions() {
@@ -72,8 +72,8 @@ public class InternalPermissionResource {
         return permissions;
     }
 
-    @GET
-    @Path("/")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<InternalApplicationUserPermission> getAccessList() {
         List<InternalRoleAccess> accessList = internalRoleAccessRepository.getAll();
@@ -87,8 +87,8 @@ public class InternalPermissionResource {
         }).collect(Collectors.toList());
     }
 
-    @POST
-    @Path("/")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public InternalRoleAccess addAccess(@Valid AddAccessRequest addAccessRequest) {
@@ -100,8 +100,8 @@ public class InternalPermissionResource {
         return internalRoleAccessRepository.addAccess(access);
     }
 
-    @DELETE
-    @Path("/{internalRoleAccessId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{internalRoleAccessId}")
     public void deleteAccess(@Valid @PathParam("internalRoleAccessId") UUID internalRoleAccessId) {
         internalRoleAccessRepository.removeAccess(internalRoleAccessId);
     }

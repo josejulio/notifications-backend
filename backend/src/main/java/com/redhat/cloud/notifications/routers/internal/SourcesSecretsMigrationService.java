@@ -22,7 +22,7 @@ import static com.redhat.cloud.notifications.auth.ConsoleIdentityProvider.RBAC_I
  * stored in our database to Sources.
  */
 @Deprecated(forRemoval = true)
-@Path(API_INTERNAL)
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL)
 @RolesAllowed(RBAC_INTERNAL_ADMIN)
 public class SourcesSecretsMigrationService {
 
@@ -38,8 +38,8 @@ public class SourcesSecretsMigrationService {
      */
     @APIResponse(responseCode = "204", description = "No Content")
     @Deprecated(forRemoval = true)
-    @POST
-    @Path("/sources-migration")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/sources-migration")
     @Transactional
     public void migrateEndpointSecretsSources() {
         final List<Endpoint> endpoints = this.endpointRepository.findEndpointWithPropertiesWithStoredSecrets();

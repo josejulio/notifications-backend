@@ -41,7 +41,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-@Path(API_INTERNAL + "/templates")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL + "/templates")
 @RolesAllowed(RBAC_INTERNAL_ADMIN)
 public class TemplateResource {
 
@@ -52,7 +52,7 @@ public class TemplateResource {
     @RestClient
     TemplateEngineClient templateEngineClient;
 
-    @POST
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -61,23 +61,23 @@ public class TemplateResource {
         return templateRepository.createTemplate(template);
     }
 
-    @GET
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_INTERNAL_USER)
     public List<Template> getAllTemplates() {
         return templateRepository.findAllTemplates();
     }
 
-    @GET
-    @Path("/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{templateId}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_INTERNAL_USER)
     public Template getTemplate(@RestPath UUID templateId) {
         return templateRepository.findTemplateById(templateId);
     }
 
-    @PUT
-    @Path("/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{templateId}")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Transactional
@@ -91,16 +91,16 @@ public class TemplateResource {
         }
     }
 
-    @DELETE
-    @Path("/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{templateId}")
     @Transactional
     @RolesAllowed(RBAC_INTERNAL_ADMIN)
     public boolean deleteTemplate(@RestPath UUID templateId) {
         return templateRepository.deleteTemplate(templateId);
     }
 
-    @POST
-    @Path("/email/instant")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/instant")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -109,16 +109,16 @@ public class TemplateResource {
         return templateRepository.createInstantEmailTemplate(template);
     }
 
-    @GET
-    @Path("/email/instant")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/instant")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_INTERNAL_USER)
     public List<InstantEmailTemplate> getAllInstantEmailTemplates(@QueryParam("applicationId") UUID applicationId) {
         return templateRepository.findAllInstantEmailTemplates(applicationId);
     }
 
-    @GET
-    @Path("/email/instant/eventType/{eventTypeId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/instant/eventType/{eventTypeId}")
     @RolesAllowed(RBAC_INTERNAL_USER)
     @APIResponses(value = {
         @APIResponse(responseCode = "200", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = InstantEmailTemplate.class))),
@@ -128,16 +128,16 @@ public class TemplateResource {
         return templateRepository.findInstantEmailTemplateByEventType(eventTypeId);
     }
 
-    @GET
-    @Path("/email/instant/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/instant/{templateId}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_INTERNAL_USER)
     public InstantEmailTemplate getInstantEmailTemplate(@RestPath UUID templateId) {
         return templateRepository.findInstantEmailTemplateById(templateId);
     }
 
-    @PUT
-    @Path("/email/instant/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/instant/{templateId}")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Transactional
@@ -151,16 +151,16 @@ public class TemplateResource {
         }
     }
 
-    @DELETE
-    @Path("/email/instant/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/instant/{templateId}")
     @Transactional
     @RolesAllowed(RBAC_INTERNAL_ADMIN)
     public boolean deleteInstantEmailTemplate(@RestPath UUID templateId) {
         return templateRepository.deleteInstantEmailTemplate(templateId);
     }
 
-    @POST
-    @Path("/email/aggregation")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/aggregation")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -169,32 +169,32 @@ public class TemplateResource {
         return templateRepository.createAggregationEmailTemplate(template);
     }
 
-    @GET
-    @Path("/email/aggregation")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/aggregation")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_INTERNAL_USER)
     public List<AggregationEmailTemplate> getAllAggregationEmailTemplates() {
         return templateRepository.findAllAggregationEmailTemplates();
     }
 
-    @GET
-    @Path("/email/aggregation/application/{appId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/aggregation/application/{appId}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_INTERNAL_USER)
     public List<AggregationEmailTemplate> getAggregationEmailTemplatesByApplication(@RestPath UUID appId) {
         return templateRepository.findAggregationEmailTemplatesByApplication(appId);
     }
 
-    @GET
-    @Path("/email/aggregation/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/aggregation/{templateId}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(RBAC_INTERNAL_USER)
     public AggregationEmailTemplate getAggregationemailTemplate(@RestPath UUID templateId) {
         return templateRepository.findAggregationEmailTemplateById(templateId);
     }
 
-    @PUT
-    @Path("/email/aggregation/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/aggregation/{templateId}")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Transactional
@@ -208,16 +208,16 @@ public class TemplateResource {
         }
     }
 
-    @DELETE
-    @Path("/email/aggregation/{templateId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/aggregation/{templateId}")
     @Transactional
     @RolesAllowed(RBAC_INTERNAL_ADMIN)
     public boolean deleteAggregationEmailTemplate(@RestPath UUID templateId) {
         return templateRepository.deleteAggregationEmailTemplate(templateId);
     }
 
-    @POST
-    @Path("/email/render")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/render")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @APIResponses(value = {

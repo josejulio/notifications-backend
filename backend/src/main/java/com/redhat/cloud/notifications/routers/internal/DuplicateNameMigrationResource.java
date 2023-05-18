@@ -26,7 +26,7 @@ import static com.redhat.cloud.notifications.Constants.API_INTERNAL;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN)
-@Path(API_INTERNAL + "/duplicate-name-migration")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL + "/duplicate-name-migration")
 public class DuplicateNameMigrationResource {
 
     final String ack = "i-am-sure-i-want-to-run-the-migration";
@@ -39,7 +39,7 @@ public class DuplicateNameMigrationResource {
         Log.infof("Duplicate name migration resource ack with value [%s]", ack);
     }
 
-    @GET
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
     @Produces(APPLICATION_JSON)
     public DuplicateNameMigrationReport migrateDuplicateNames(@QueryParam("ack") String ack) {
         if (!Objects.equals(this.ack, ack)) {

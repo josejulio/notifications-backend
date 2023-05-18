@@ -53,7 +53,7 @@ import static com.redhat.cloud.notifications.routers.SecurityContextUtil.getOrgI
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
-@Path(Constants.API_NOTIFICATIONS_V_1_0 + "/user-config")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =Constants.API_NOTIFICATIONS_V_1_0 + "/user-config")
 public class UserConfigResource {
 
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -77,8 +77,8 @@ public class UserConfigResource {
     @Inject
     FeatureFlipper featureFlipper;
 
-    @POST
-    @Path("/notification-preference")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/notification-preference")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Transactional
@@ -138,8 +138,8 @@ public class UserConfigResource {
         return userName;
     }
 
-    @GET
-    @Path("/notification-preference/{bundleName}/{applicationName}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/notification-preference/{bundleName}/{applicationName}")
     @Produces(APPLICATION_JSON)
     public UserConfigPreferences getPreferences(
             @Context SecurityContext sec,
@@ -162,8 +162,8 @@ public class UserConfigResource {
         return preferences;
     }
 
-    @GET
-    @Path("/notification-preference")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/notification-preference")
     @Produces(APPLICATION_JSON)
     public Response getSettingsSchema(@Context SecurityContext sec, @QueryParam("bundleName") String bundleName) {
 
@@ -247,8 +247,8 @@ public class UserConfigResource {
     }
 
 
-    @POST
-    @Path("/notification-event-type-preference")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/notification-event-type-preference")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Operation(hidden = true)
@@ -299,8 +299,8 @@ public class UserConfigResource {
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/notification-event-type-preference")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/notification-event-type-preference")
     @Produces(APPLICATION_JSON)
     @Operation(hidden = true)
     public Response getSettingsSchemaByEventType(@Context SecurityContext sec) {
@@ -319,8 +319,8 @@ public class UserConfigResource {
         return builder.build();
     }
 
-    @GET
-    @Path("/notification-event-type-preference/{bundleName}/{applicationName}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/notification-event-type-preference/{bundleName}/{applicationName}")
     @Produces(APPLICATION_JSON)
     @Operation(hidden = true)
     public Response getPreferencesByEventType(

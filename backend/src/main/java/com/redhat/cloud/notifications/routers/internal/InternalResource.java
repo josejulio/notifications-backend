@@ -74,7 +74,7 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN)
-@Path(API_INTERNAL)
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL)
 public class InternalResource {
 
     private static final Pattern GIT_COMMIT_ID_PATTERN = Pattern.compile("git.commit.id.abbrev=([0-9a-f]{7})");
@@ -117,8 +117,8 @@ public class InternalResource {
     AggregationOrgConfigRepository aggregationOrgConfigRepository;
 
     // This endpoint is used during the IQE tests to determine which version of the code is tested.
-    @GET
-    @Path("/version")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/version")
     @PermitAll
     public String getVersion() {
         String gitProperties = startupUtils.readGitProperties();
@@ -131,8 +131,8 @@ public class InternalResource {
         }
     }
 
-    @GET
-    @Path("/serverInfo")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/serverInfo")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public ServerInfo getServerInfo() {
@@ -144,23 +144,23 @@ public class InternalResource {
         return info;
     }
 
-    @GET
-    @Path("/")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/")
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public void httpRoot() {
         throw new RedirectionException(Response.Status.OK, URI.create("index.html"));
     }
 
-    @GET
-    @Path("/openapi.json")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/openapi.json")
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
     public String serveInternalOpenAPI() {
         return oApiFilter.serveOpenApi(OApiFilter.INTERNAL);
     }
 
-    @POST
-    @Path("/bundles")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/bundles")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -169,8 +169,8 @@ public class InternalResource {
         return bundleRepository.createBundle(bundle);
     }
 
-    @GET
-    @Path("/bundles")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/bundles")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public List<Bundle> getBundles() {
@@ -178,8 +178,8 @@ public class InternalResource {
         return bundleRepository.getBundles();
     }
 
-    @GET
-    @Path("/bundles/{bundleId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/bundles/{bundleId}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public Bundle getBundle(@PathParam("bundleId") UUID bundleId) {
@@ -191,8 +191,8 @@ public class InternalResource {
         }
     }
 
-    @PUT
-    @Path("/bundles/{bundleId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/bundles/{bundleId}")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Transactional
@@ -206,8 +206,8 @@ public class InternalResource {
         }
     }
 
-    @DELETE
-    @Path("/bundles/{bundleId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/bundles/{bundleId}")
     @Produces(APPLICATION_JSON)
     @Transactional
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN)
@@ -215,16 +215,16 @@ public class InternalResource {
         return bundleRepository.deleteBundle(bundleId);
     }
 
-    @GET
-    @Path("/bundles/{bundleId}/applications")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/bundles/{bundleId}/applications")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public List<Application> getApplications(@PathParam("bundleId") UUID bundleId) {
         return bundleRepository.getApplications(bundleId);
     }
 
-    @POST
-    @Path("/applications")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/applications")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -249,8 +249,8 @@ public class InternalResource {
         return app;
     }
 
-    @GET
-    @Path("/applications/{appId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/applications/{appId}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public Application getApplication(@PathParam("appId") UUID appId) {
@@ -262,8 +262,8 @@ public class InternalResource {
         }
     }
 
-    @PUT
-    @Path("/applications/{appId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/applications/{appId}")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Transactional
@@ -278,8 +278,8 @@ public class InternalResource {
         }
     }
 
-    @DELETE
-    @Path("/applications/{appId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/applications/{appId}")
     @Produces(APPLICATION_JSON)
     @Transactional
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN)
@@ -287,16 +287,16 @@ public class InternalResource {
         return applicationRepository.deleteApplication(appId);
     }
 
-    @GET
-    @Path("/applications/{appId}/eventTypes")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/applications/{appId}/eventTypes")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public List<EventType> getEventTypes(@PathParam("appId") UUID appId) {
         return applicationRepository.getEventTypes(appId);
     }
 
-    @POST
-    @Path("/eventTypes")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/eventTypes")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -306,8 +306,8 @@ public class InternalResource {
         return applicationRepository.createEventType(eventType);
     }
 
-    @PUT
-    @Path("/eventTypes/{eventTypeId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/eventTypes/{eventTypeId}")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Transactional
@@ -322,8 +322,8 @@ public class InternalResource {
         }
     }
 
-    @DELETE
-    @Path("/eventTypes/{eventTypeId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/eventTypes/{eventTypeId}")
     @Produces(APPLICATION_JSON)
     @Transactional
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
@@ -332,8 +332,8 @@ public class InternalResource {
         return applicationRepository.deleteEventTypeById(eventTypeId);
     }
 
-    @PUT
-    @Path("/status")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/status")
     @Consumes(APPLICATION_JSON)
     @Transactional
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN)
@@ -341,8 +341,8 @@ public class InternalResource {
         statusRepository.setCurrentStatus(status);
     }
 
-    @GET
-    @Path("/behaviorGroups/default")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/behaviorGroups/default")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public List<BehaviorGroup> getDefaultBehaviorGroups() {
@@ -359,8 +359,8 @@ public class InternalResource {
         return behaviorGroups;
     }
 
-    @POST
-    @Path("/behaviorGroups/default")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/behaviorGroups/default")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -369,8 +369,8 @@ public class InternalResource {
         return behaviorGroupRepository.createDefault(behaviorGroup);
     }
 
-    @PUT
-    @Path("/behaviorGroups/default/{id}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/behaviorGroups/default/{id}")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Operation(summary = "Update a default behavior group.")
@@ -382,8 +382,8 @@ public class InternalResource {
         return true;
     }
 
-    @DELETE
-    @Path("/behaviorGroups/default/{id}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/behaviorGroups/default/{id}")
     @Produces(APPLICATION_JSON)
     @Operation(summary = "Deletes a default behavior group.")
     @Transactional
@@ -392,8 +392,8 @@ public class InternalResource {
         return behaviorGroupRepository.deleteDefault(id);
     }
 
-    @PUT
-    @Path("/behaviorGroups/default/{behaviorGroupId}/actions")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/behaviorGroups/default/{behaviorGroupId}/actions")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @Operation(summary = "Update the list of actions of a default behavior group.")
@@ -422,8 +422,8 @@ public class InternalResource {
         return Response.ok().build();
     }
 
-    @PUT
-    @Path("/behaviorGroups/default/{behaviorGroupId}/eventType/{eventTypeId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/behaviorGroups/default/{behaviorGroupId}/eventType/{eventTypeId}")
     @Produces(TEXT_PLAIN)
     @Operation(summary = "Links the default behavior group to the event type.")
     @APIResponse(responseCode = "200", content = @Content(schema = @Schema(type = SchemaType.STRING)))
@@ -439,8 +439,8 @@ public class InternalResource {
         }
     }
 
-    @DELETE
-    @Path("/behaviorGroups/default/{behaviorGroupId}/eventType/{eventTypeId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/behaviorGroups/default/{behaviorGroupId}/eventType/{eventTypeId}")
     @Produces(TEXT_PLAIN)
     @Operation(summary = "Unlinks the default behavior group from the event type.")
     @APIResponse(responseCode = "200", content = @Content(schema = @Schema(type = SchemaType.STRING)))
@@ -456,8 +456,8 @@ public class InternalResource {
         }
     }
 
-    @PUT
-    @Path("/daily-digest/time-preference/{orgId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/daily-digest/time-preference/{orgId}")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -468,8 +468,8 @@ public class InternalResource {
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/daily-digest/time-preference/{orgId}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/daily-digest/time-preference/{orgId}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public Response getDailyDigestTimePreference(@PathParam("orgId") String orgId) {
@@ -487,8 +487,8 @@ public class InternalResource {
      * @param triggerDailyDigestRequest the settings of the digest.
      */
     @Consumes(APPLICATION_JSON)
-    @POST
-    @Path("/daily-digest/trigger")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/daily-digest/trigger")
     @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_USER)
     public void triggerDailyDigest(@NotNull @Valid final TriggerDailyDigestRequest triggerDailyDigestRequest) {
         if (!this.environment.isLocal() && !this.environment.isStage()) {

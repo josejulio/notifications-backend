@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import static com.redhat.cloud.notifications.routers.SecurityContextUtil.getOrgId;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path(Constants.API_NOTIFICATIONS_V_1_0 + "/org-config")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =Constants.API_NOTIFICATIONS_V_1_0 + "/org-config")
 public class OrgConfigResource {
 
     static final List<Integer> ALLOWED_MINUTES = Arrays.asList(0, 15, 30, 45);
@@ -38,8 +38,8 @@ public class OrgConfigResource {
     @ConfigProperty(name = "notifications.default.daily.digest.time", defaultValue = "00:00")
     LocalTime defaultDailyDigestTime;
 
-    @PUT
-    @Path("/daily-digest/time-preference")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/daily-digest/time-preference")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Transactional
@@ -56,8 +56,8 @@ public class OrgConfigResource {
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/daily-digest/time-preference")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/daily-digest/time-preference")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_READ_NOTIFICATIONS)
     public Response getDailyDigestTimePreference(@Context SecurityContext sec) {

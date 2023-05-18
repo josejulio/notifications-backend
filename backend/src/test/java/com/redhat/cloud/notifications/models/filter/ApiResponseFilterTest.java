@@ -55,19 +55,19 @@ public class ApiResponseFilterTest {
         assertNotNull(jsonEventType.getJsonObject("application"));
     }
 
-    @Path("/internal/event-types")
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/internal/event-types")
     public static class TestResources {
 
-        @GET
-        @Path("/filtered")
+        @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+        @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/filtered")
         public EventType returnFilteredEventType() {
             EventType eventType = buildEventType();
             eventType.filterOutApplication();
             return eventType;
         }
 
-        @GET
-        @Path("/unfiltered")
+        @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+        @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/unfiltered")
         public EventType returnUnfilteredEventType() {
             return buildEventType();
         }

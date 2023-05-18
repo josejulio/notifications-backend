@@ -13,13 +13,13 @@ import javax.ws.rs.Produces;
 import static com.redhat.cloud.notifications.Constants.API_NOTIFICATIONS_V_1_0;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path(API_NOTIFICATIONS_V_1_0 + "/status")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_NOTIFICATIONS_V_1_0 + "/status")
 public class StatusResource {
 
     @Inject
     StatusRepository statusRepository;
 
-    @GET
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
     @Produces(APPLICATION_JSON)
     @Tag(name = OApiFilter.PRIVATE)
     public CurrentStatus getCurrentStatus() {

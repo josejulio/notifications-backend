@@ -27,7 +27,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-@Path(API_INTERNAL + "/validation")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL + "/validation")
 public class ValidationResource {
 
     private static final String EVENT_TYPE_NOT_FOUND_MSG = "No event type found for [bundle=%s, application=%s, eventType=%s]";
@@ -37,8 +37,8 @@ public class ValidationResource {
 
     ConsoleCloudEventParser consoleCloudEventParser = new ConsoleCloudEventParser();
 
-    @GET
-    @Path("/baet")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/baet")
     @Produces(TEXT_PLAIN)
     @APIResponses({
         @APIResponse(responseCode = "200", description = "The bundle, application and event type triplet is valid"),
@@ -54,7 +54,7 @@ public class ValidationResource {
         }
     }
 
-    @POST
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
     @Consumes(APPLICATION_JSON)
     @APIResponses({
         @APIResponse(
@@ -69,7 +69,7 @@ public class ValidationResource {
             ),
         @APIResponse(content = @Content(mediaType = TEXT_PLAIN), responseCode = "200"),
     })
-    @Path("/message")
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/message")
     public Response validateMessage(String action) {
         try {
             Parser.validate(action);
@@ -84,7 +84,7 @@ public class ValidationResource {
         return Response.ok().build();
     }
 
-    @POST
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
     @Consumes(APPLICATION_JSON)
     @APIResponses({
         @APIResponse(
@@ -99,7 +99,7 @@ public class ValidationResource {
             ),
         @APIResponse(content = @Content(mediaType = TEXT_PLAIN), responseCode = "200"),
     })
-    @Path("/console-cloud-event")
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/console-cloud-event")
     public Response validateConsoleCloudEvent(String action) {
         try {
             consoleCloudEventParser.validate(action);

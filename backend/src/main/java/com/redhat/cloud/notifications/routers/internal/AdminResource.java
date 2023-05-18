@@ -28,7 +28,7 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
  * Stuff around admin of the service and debugging
  */
 @RolesAllowed(ConsoleIdentityProvider.RBAC_INTERNAL_ADMIN)
-@Path(API_INTERNAL + "/admin")
+@com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path =API_INTERNAL + "/admin")
 public class AdminResource {
 
     @Inject
@@ -39,7 +39,7 @@ public class AdminResource {
     @RestClient
     TemplateEngineClient templateEngine;
 
-    @GET
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
     @Produces(APPLICATION_JSON)
     public Response debugRbac(@QueryParam("rhid") String rhid) {
         try {
@@ -52,8 +52,8 @@ public class AdminResource {
 
     }
 
-    @Path("/status")
-    @POST
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/status")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
     @Produces(TEXT_PLAIN)
     public Response setAdminDown(@QueryParam("status") Optional<String> status) {
 
@@ -87,15 +87,15 @@ public class AdminResource {
     }
 
     // TODO NOTIF-484 Remove this method when the templates DB migration is finished.
-    @DELETE
-    @Path("/templates/migrate")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/templates/migrate")
     public void deleteAllTemplates() {
         templateEngine.deleteAllTemplates();
     }
 
     // TODO NOTIF-484 Remove this method when the templates DB migration is finished.
-    @PUT
-    @Path("/templates/migrate")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/templates/migrate")
     public void migrate() {
         templateEngine.migrate();
     }

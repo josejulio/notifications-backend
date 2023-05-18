@@ -18,6 +18,7 @@
         <module>common-aggregator</module>
         <module>database</module>
         <module>engine</module>
+        <module>versioned-path</module>
     </modules>
 
     <profiles>

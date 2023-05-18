@@ -30,6 +30,11 @@
             <artifactId>notifications-database</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.redhat.cloud.notifications</groupId>
+            <artifactId>versioned-path</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Quarkus -->
         <dependency>
@@ -202,6 +207,13 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessors>
+                        <annotationProcessor>
+                            com.redhat.cloud.versioned.VersionedAnnotationProcessor
+                        </annotationProcessor>
+                    </annotationProcessors>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -249,6 +261,18 @@
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                 </configuration>
             </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <annotationProcessors>
+                        <annotationProcessor>
+                            com.redhat.cloud.versioned.VersionedAnnotationProcessor
+                        </annotationProcessor>
+                    </annotationProcessors>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 </project>

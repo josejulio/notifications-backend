@@ -26,6 +26,9 @@ import com.redhat.cloud.notifications.routers.models.EndpointPage;
 import com.redhat.cloud.notifications.routers.models.Meta;
 import com.redhat.cloud.notifications.routers.models.RequestEmailSubscriptionProperties;
 import com.redhat.cloud.notifications.routers.sources.SecretUtils;
+import com.redhat.cloud.versioned.VersionedMethod;
+import com.redhat.cloud.versioned.VersionedPath;
+import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 import io.vertx.core.json.JsonObject;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
@@ -74,7 +77,7 @@ import static com.redhat.cloud.notifications.routers.SecurityContextUtil.getOrgI
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
-@Path(Constants.API_INTEGRATIONS_V_1_0 + "/endpoints")
+@VersionedPath(path = Constants.API_INTEGRATIONS + "/endpoints", sinceVersion = "1.0")
 // Email endpoints are not added at this point
 // TODO Needs documentation annotations
 public class EndpointResource {
@@ -113,7 +116,7 @@ public class EndpointResource {
     @Inject
     SecretUtils secretUtils;
 
-    @GET
+    @VersionedPath(path = "/")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_READ_INTEGRATIONS_ENDPOINTS)
     @Operation(summary = "List endpoints", description = "Get a list of endpoints filtered down by the passed parameters.")
@@ -170,7 +173,13 @@ public class EndpointResource {
         return new EndpointPage(endpoints, new HashMap<>(), new Meta(count));
     }
 
-    @POST
+    @VersionedPath(path = "/", sinceVersion = "2.0")
+    public EndpointPage newGetEndpoints() {
+        return null;
+    }
+
+    @VersionedPath(path = "/")
+    @VersionedMethod(VersionedMethod.HttpMethod.POST)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Operation(summary = "Create a new endpoint", description = "Create a new endpoint from the passed data")
@@ -226,8 +235,8 @@ public class EndpointResource {
         return channel;
     }
 
-    @POST
-    @Path("/system/email_subscription")
+    @VersionedPath(path = "/system/email_subscription")
+    @VersionedMethod(VersionedMethod.HttpMethod.POST)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_READ_INTEGRATIONS_ENDPOINTS)
@@ -257,8 +266,7 @@ public class EndpointResource {
         return endpointRepository.getOrCreateEmailSubscriptionEndpoint(accountId, orgId, properties);
     }
 
-    @GET
-    @Path("/{id}")
+    @VersionedPath(path = "/{id}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_READ_INTEGRATIONS_ENDPOINTS)
     public Endpoint getEndpoint(@Context SecurityContext sec, @PathParam("id") UUID id) {
@@ -276,8 +284,8 @@ public class EndpointResource {
         }
     }
 
-    @DELETE
-    @Path("/{id}")
+    @VersionedPath(path = "/{id}")
+    @VersionedMethod(VersionedMethod.HttpMethod.DELETE)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_WRITE_INTEGRATIONS_ENDPOINTS)
     @APIResponse(responseCode = "204", description = "The integration has been deleted", content = @Content(schema = @Schema(type = SchemaType.STRING)))
     @Transactional
@@ -300,8 +308,8 @@ public class EndpointResource {
         return Response.noContent().build();
     }
 
-    @PUT
-    @Path("/{id}/enable")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{id}/enable")
     @Produces(TEXT_PLAIN)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_WRITE_INTEGRATIONS_ENDPOINTS)
     @APIResponse(responseCode = "200", content = @Content(schema = @Schema(type = SchemaType.STRING)))
@@ -317,8 +325,8 @@ public class EndpointResource {
         return Response.ok().build();
     }
 
-    @DELETE
-    @Path("/{id}/enable")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{id}/enable")
     @RolesAllowed(ConsoleIdentityProvider.RBAC_WRITE_INTEGRATIONS_ENDPOINTS)
     @APIResponse(responseCode = "204", description = "The integration has been disabled", content = @Content(schema = @Schema(type = SchemaType.STRING)))
     @Transactional
@@ -333,8 +341,8 @@ public class EndpointResource {
         return Response.noContent().build();
     }
 
-    @PUT
-    @Path("/{id}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{id}")
     @Consumes(APPLICATION_JSON)
     @Produces(TEXT_PLAIN)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_WRITE_INTEGRATIONS_ENDPOINTS)
@@ -386,8 +394,8 @@ public class EndpointResource {
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/{id}/history")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{id}/history")
     @Produces(APPLICATION_JSON)
     @Parameters({
         @Parameter(
@@ -417,8 +425,8 @@ public class EndpointResource {
         return notificationRepository.getNotificationHistory(orgId, id, doDetail, query);
     }
 
-    @GET
-    @Path("/{id}/history/{history_id}/details")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.GET)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{id}/history/{history_id}/details")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_READ_INTEGRATIONS_ENDPOINTS)
     @APIResponse(responseCode = "200", content = @Content(schema = @Schema(type = SchemaType.STRING)))
@@ -437,8 +445,8 @@ public class EndpointResource {
     }
 
     @Deprecated
-    @PUT
-    @Path("/email/subscription/{bundleName}/{applicationName}/{type}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.PUT)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/subscription/{bundleName}/{applicationName}/{type}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_WRITE_INTEGRATIONS_ENDPOINTS)
     @Transactional
@@ -469,8 +477,8 @@ public class EndpointResource {
     }
 
     @Deprecated
-    @DELETE
-    @Path("/email/subscription/{bundleName}/{applicationName}/{type}")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.DELETE)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/email/subscription/{bundleName}/{applicationName}/{type}")
     @Produces(APPLICATION_JSON)
     @RolesAllowed(ConsoleIdentityProvider.RBAC_WRITE_INTEGRATIONS_ENDPOINTS)
     @Transactional
@@ -504,8 +512,8 @@ public class EndpointResource {
      * @return a "no content" response on success.
      */
     @APIResponse(responseCode = "204", description = "No Content")
-    @POST
-    @Path("/{uuid}/test")
+    @com.redhat.cloud.versioned.VersionedMethod(com.redhat.cloud.versioned.VersionedMethod.HttpMethod.POST)
+    @com.redhat.cloud.versioned.VersionedPath(sinceVersion= "1.0", path ="/{uuid}/test")
     @Parameters({
         @Parameter(
                 name = "uuid",

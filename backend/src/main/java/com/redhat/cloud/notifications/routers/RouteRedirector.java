@@ -2,6 +2,7 @@ package com.redhat.cloud.notifications.routers;
 
 import io.quarkus.logging.Log;
 import io.quarkus.vertx.web.RouteFilter;
+import io.vertx.ext.web.Route;
 import io.vertx.ext.web.RoutingContext;
 
 import java.util.regex.Matcher;
@@ -42,6 +43,12 @@ public class RouteRedirector {
             rc.reroute(newTarget);
             return;
         }
+        rc.next();
+    }
+
+    @RouteFilter(0)
+    void notFoundRedirector(RoutingContext rc) {
+        Route route = rc.currentRoute();
         rc.next();
     }
 }
